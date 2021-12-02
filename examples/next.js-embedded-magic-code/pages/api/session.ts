@@ -1,21 +1,29 @@
 import { withSessionRoute } from "lib/withSession";
 import { NextApiRequest, NextApiResponse } from "next";
+import type { Session } from "lib/Session";
 
-async function userRoute(req: NextApiRequest, res: NextApiResponse<User>) {
+async function sessionRoute(
+  req: NextApiRequest,
+  res: NextApiResponse<Session>,
+) {
   if (req.session.user) {
     // in a real world application you might read the user id from the session and then do a database request
     // to get more information on the user if needed
     res.json({
-      ...req.session.user,
-      isLoggedIn: true,
+      user: {
+        ...req.session.user,
+        isLoggedIn: true,
+      },
     });
   } else {
     res.json({
-      isLoggedIn: false,
-      login: "",
-      avatarUrl: "",
+      user: {
+        isLoggedIn: false,
+        login: "",
+        avatarUrl: "",
+      },
     });
   }
 }
 
-export default withSessionRoute(userRoute);
+export default withSessionRoute(sessionRoute);

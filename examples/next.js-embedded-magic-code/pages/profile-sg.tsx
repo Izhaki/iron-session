@@ -5,7 +5,9 @@ import withAccessRestrictions from "lib/withAccessRestrictions";
 
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 function SgProfile() {
-  const { user } = useSession();
+  const { session } = useSession();
+
+  const user = session?.user;
 
   return (
     <Layout>
@@ -16,7 +18,7 @@ function SgProfile() {
           Static Generation (SG)
         </a>{" "}
         {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-        and the <a href="/api/user">/api/user</a> route (using{" "}
+        and the <a href="/api/session">/api/session</a> route (using{" "}
         <a href="https://github.com/vercel/swr">vercel/SWR</a>)
       </h2>
       {user && (

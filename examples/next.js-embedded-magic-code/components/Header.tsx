@@ -4,7 +4,9 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 
 export default function Header() {
-  const { user, logout } = useSession();
+  const { session, logout } = useSession();
+
+  const user = session?.user;
 
   const router = useRouter();
 

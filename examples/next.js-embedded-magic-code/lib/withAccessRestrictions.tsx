@@ -21,10 +21,10 @@ const withAccessRestrictions =
     const { hasAccess, unauthorizedRedirect, loading = null } = options;
 
     const WithAccessRestrictions = (props: T) => {
-      const { user, isLoading } = useSession();
+      const { session, isLoading } = useSession();
       const router = useRouter();
 
-      const authorized = hasAccess(user);
+      const authorized = session && hasAccess(session.user);
 
       useEnhancedEffect(() => {
         if (isLoading) {

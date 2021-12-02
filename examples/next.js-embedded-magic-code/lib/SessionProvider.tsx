@@ -1,7 +1,7 @@
 import * as React from "react";
 import withSWR from "./withSWR";
 import useSWR from "swr";
-import { User } from "lib/Session";
+import { Session } from "lib/Session";
 import fetchJson from "./fetchJson";
 import SessionContext from "./SessionContext";
 
@@ -10,9 +10,13 @@ export interface Props {
 }
 
 function SessionProvider({ children }: Props) {
-  const { data: user, error, mutate: mutateUser } = useSWR<User>("/api/user");
+  const {
+    data: session,
+    error,
+    mutate: mutateUser,
+  } = useSWR<Session>("/api/session");
 
-  const isLoading = !error && !user;
+  const isLoading = !error && !session;
 
   const login = React.useCallback(
     async (username) =>
@@ -34,7 +38,7 @@ function SessionProvider({ children }: Props) {
   );
 
   return (
-    <SessionContext.Provider value={{ user, isLoading, login, logout }}>
+    <SessionContext.Provider value={{ session, isLoading, login, logout }}>
       {children}
     </SessionContext.Provider>
   );

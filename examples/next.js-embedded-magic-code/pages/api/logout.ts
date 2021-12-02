@@ -1,10 +1,10 @@
 import { withSessionRoute } from "lib/withSession";
 import { NextApiRequest, NextApiResponse } from "next";
-import type { User } from "lib/Session";
+import type { Session } from "lib/Session";
 
-function logoutRoute(req: NextApiRequest, res: NextApiResponse<User>) {
+function logoutRoute(req: NextApiRequest, res: NextApiResponse<Session>) {
   req.session.destroy();
-  res.json({ isLoggedIn: false, login: "", avatarUrl: "" });
+  res.json({ user: { isLoggedIn: false, login: "", avatarUrl: "" } });
 }
 
 export default withSessionRoute(logoutRoute);

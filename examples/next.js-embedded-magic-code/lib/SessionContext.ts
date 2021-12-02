@@ -1,14 +1,14 @@
 import { createContext } from "react";
-import { User } from "lib/Session";
+import { Session } from "lib/Session";
 
 const noContextProvierMessage =
   "Trying to access SessionContext, but no provider in ancestors";
 
 const SessionContext = createContext<{
-  user?: User;
+  session?: Session;
   isLoading: boolean;
-  login: (username: string) => Promise<User | undefined>;
-  logout: () => Promise<User | undefined>;
+  login: (username: string) => Promise<Session | undefined>;
+  logout: () => Promise<Session | undefined>;
 }>({
   isLoading: false,
   login: () => {
