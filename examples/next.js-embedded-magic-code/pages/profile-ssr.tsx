@@ -1,8 +1,7 @@
 import React from "react";
-import Layout from "components/Layout";
-import { withIronSessionSsr } from "iron-session/next";
-import { sessionOptions } from "lib/session";
+import { withSessionSsr } from "lib/withSession";
 import { User } from "pages/api/user";
+import Layout from "components/Layout";
 
 import { InferGetServerSidePropsType } from "next";
 
@@ -39,10 +38,7 @@ export default function SsrProfile({
   );
 }
 
-export const getServerSideProps = withIronSessionSsr(async function ({
-  req,
-  res,
-}) {
+export const getServerSideProps = withSessionSsr(async function ({ req, res }) {
   const user = req.session.user;
 
   if (user === undefined) {
@@ -59,5 +55,4 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   return {
     props: { user: req.session.user },
   };
-},
-sessionOptions);
+});

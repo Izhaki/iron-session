@@ -1,10 +1,8 @@
 import type { User } from "./user";
 
-import { withIronSessionApiRoute } from "iron-session/next";
-import { sessionOptions } from "lib/session";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default withIronSessionApiRoute(loginRoute, sessionOptions);
+import { withSessionRoute } from "lib/withSession";
 
 async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -21,3 +19,5 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
     res.status(500).json({ message: (error as Error).message });
   }
 }
+
+export default withSessionRoute(loginRoute);

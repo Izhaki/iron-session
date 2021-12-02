@@ -1,5 +1,4 @@
-import { withIronSessionApiRoute } from "iron-session/next";
-import { sessionOptions } from "lib/session";
+import { withSessionRoute } from "lib/withSession";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export type User = {
@@ -7,8 +6,6 @@ export type User = {
   login: string;
   avatarUrl: string;
 };
-
-export default withIronSessionApiRoute(userRoute, sessionOptions);
 
 async function userRoute(req: NextApiRequest, res: NextApiResponse<User>) {
   if (req.session.user) {
@@ -26,3 +23,5 @@ async function userRoute(req: NextApiRequest, res: NextApiResponse<User>) {
     });
   }
 }
+
+export default withSessionRoute(userRoute);

@@ -9,6 +9,12 @@ interface WithAccessRestrictionsOptions {
   loading?: React.ReactElement;
 }
 
+// We want `useLayoutEffect` on the client so no extra rendering cycle.
+// This, however, throws a warning for SSR, so use `React.useEffect` on the server.
+// That's how MUI do it.
+const useEnhancedEffect =
+  typeof window !== "undefined" ? React.useLayoutEffect : React.useEffect;
+
 const withAccessRestrictions =
   (options: WithAccessRestrictionsOptions) =>
   <T,>(WrappedComponent: React.ComponentType<T>) => {
@@ -20,7 +26,7 @@ const withAccessRestrictions =
 
       const authorized = hasAccess(user);
 
-      React.useLayoutEffect(() => {
+      useEnhancedEffect(() => {
         if (isLoading) {
           return; // Do nothing if still loading
         }
