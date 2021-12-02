@@ -1,7 +1,6 @@
 import React from "react";
 import { withSessionSsr } from "lib/withSession";
 import { User } from "lib/Session";
-import Layout from "components/Layout";
 
 import { InferGetServerSidePropsType } from "next";
 
@@ -9,7 +8,7 @@ export default function SsrProfile({
   user,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
-    <Layout>
+    <>
       <h1>Your GitHub profile</h1>
       <h2>
         This page uses{" "}
@@ -34,7 +33,7 @@ export default function SsrProfile({
           <pre>{JSON.stringify(user, null, 2)}</pre>
         </>
       )}
-    </Layout>
+    </>
   );
 }
 

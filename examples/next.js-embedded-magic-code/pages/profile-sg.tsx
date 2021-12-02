@@ -1,5 +1,4 @@
 import React from "react";
-import Layout from "components/Layout";
 import useSession from "lib/useSession";
 import withAccessRestrictions from "lib/withAccessRestrictions";
 
@@ -10,7 +9,7 @@ function SgProfile() {
   const user = session?.user;
 
   return (
-    <Layout>
+    <>
       <h1>Your GitHub profile</h1>
       <h2>
         This page uses{" "}
@@ -34,7 +33,7 @@ function SgProfile() {
           <pre>{JSON.stringify(user, null, 2)}</pre>
         </>
       )}
-    </Layout>
+    </>
   );
 }
 

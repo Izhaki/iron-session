@@ -1,9 +1,8 @@
-import Layout from "components/Layout";
 import Image from "next/image";
 
 export default function Home() {
   return (
-    <Layout>
+    <>
       <h1>
         <span style={{ marginRight: ".3em", verticalAlign: "middle" }}>
           <Image src="/GitHub-Mark-32px.png" width="32" height="32" alt="" />
@@ -54,6 +53,6 @@ export default function Home() {
           margin-bottom: 0.5rem;
         }
       `}</style>
-    </Layout>
+    </>
   );
 }

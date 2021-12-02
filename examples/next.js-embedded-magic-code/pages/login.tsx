@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import useSession, { FetchError } from "lib/useSession";
-import Layout from "components/Layout";
 import { useRouter } from "next/router";
 import Form from "components/Form";
 
@@ -11,7 +10,7 @@ export default function Login() {
   const [errorMsg, setErrorMsg] = useState("");
 
   return (
-    <Layout>
+    <>
       <div className="login">
         <Form
           errorMessage={errorMsg}
@@ -42,6 +41,6 @@ export default function Login() {
           border-radius: 4px;
         }
       `}</style>
-    </Layout>
+    </>
   );
 }
