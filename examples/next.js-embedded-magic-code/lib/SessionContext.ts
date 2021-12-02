@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { User } from "pages/api/user";
+import { User } from "lib/Session";
 
 const noContextProvierMessage =
   "Trying to access SessionContext, but no provider in ancestors";

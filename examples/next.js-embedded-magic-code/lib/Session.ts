@@ -1,6 +1,11 @@
 // this file is a wrapper with defaults to be used in both API routes and `getServerSideProps` functions
 import type { IronSessionData } from "iron-session";
-import type { User } from "pages/api/user";
+
+export type User = {
+  isLoggedIn: boolean;
+  login: string;
+  avatarUrl: string;
+};
 
 // This is where we specify the typings of req.session.*
 // This type is used by the `iron-session` package (and above) this way:

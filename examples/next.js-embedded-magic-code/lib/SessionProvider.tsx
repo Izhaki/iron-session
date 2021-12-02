@@ -1,7 +1,7 @@
 import * as React from "react";
 import withSWR from "./withSWR";
 import useSWR from "swr";
-import { User } from "pages/api/user";
+import { User } from "lib/Session";
 import fetchJson from "./fetchJson";
 import SessionContext from "./SessionContext";
 

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useRouter } from "next/router";
 import useSession from "lib/useSession";
-import { User } from "pages/api/user";
+import { User } from "lib/Session";
 
 interface WithAccessRestrictionsOptions {
   hasAccess: (user: User | undefined) => boolean;

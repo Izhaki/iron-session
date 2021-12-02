@@ -1,6 +1,6 @@
 import React from "react";
 import { withSessionSsr } from "lib/withSession";
-import { User } from "pages/api/user";
+import { User } from "lib/Session";
 import Layout from "components/Layout";
 
 import { InferGetServerSidePropsType } from "next";

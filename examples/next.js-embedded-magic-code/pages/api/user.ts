@@ -1,12 +1,6 @@
 import { withSessionRoute } from "lib/withSession";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export type User = {
-  isLoggedIn: boolean;
-  login: string;
-  avatarUrl: string;
-};
-
 async function userRoute(req: NextApiRequest, res: NextApiResponse<User>) {
   if (req.session.user) {
     // in a real world application you might read the user id from the session and then do a database request
