@@ -48,11 +48,6 @@ export default function Home() {
           redirected to the `/login` route.
         </li>
       </ol>
-      <style jsx>{`
-        li {
-          margin-bottom: 0.5rem;
-        }
-      `}</style>
     </>
   );
 }

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import useSession, { FetchError } from "lib/useSession";
 import { useRouter } from "next/router";
-import Form from "components/Form";
+import Form from "components/LoginForm";
+
+import styles from "./login.module.css";
 
 export default function Login() {
   const { login } = useSession();
@@ -11,7 +13,7 @@ export default function Login() {
 
   return (
     <>
-      <div className="login">
+      <div className={styles.login}>
         <Form
           errorMessage={errorMsg}
           onSubmit={async function handleSubmit(event) {
@@ -32,15 +34,6 @@ export default function Login() {
           }}
         />
       </div>
-      <style jsx>{`
-        .login {
-          max-width: 21rem;
-          margin: 0 auto;
-          padding: 1rem;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-        }
-      `}</style>
     </>
   );
 }

@@ -1,122 +1,108 @@
-import Link from "next/link";
-import useSession from "lib/useSession";
-import { useRouter } from "next/router";
+import * as React from "react";
+import clsx from "clsx";
 import Image from "next/image";
+import Link from "next/link";
 
-export default function Header() {
-  const { session, logout } = useSession();
+import { useRouter } from "next/router";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
+import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
+
+import useSession from "lib/useSession";
+
+import styles from "./Header.module.css";
+
+export default function NavBar() {
+  const { session, logout, isLoading } = useSession();
 
   const user = session?.user;
 
   const router = useRouter();
 
+  const isLoggedIn = user?.isLoggedIn === true;
+
+  async function handleLogout(event: React.MouseEvent<HTMLElement>) {
+    event.preventDefault();
+    await logout();
+    router.push("/login");
+  }
+
   return (
-    <header>
-      <nav>
-        <ul>
-          <li>
-            <Link href="/">
-              <a>Home</a>
+    <Navbar
+      collapseOnSelect
+      expand="lg"
+      bg="black"
+      variant="dark"
+      className={styles.navbar}
+    >
+      <Container className={styles.container}>
+        <Navbar.Brand
+          href="https://github.com/vvo/iron-session"
+          className={styles["align-center"]}
+        >
+          <span className={styles.github}>
+            <Image
+              src="/GitHub-Mark-Light-32px.png"
+              width="24"
+              height="24"
+              alt="GitHub"
+            />
+          </span>
+          Iron-Session
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="me-auto" activeKey={router.pathname}>
+            <Link href="/" passHref>
+              <Nav.Link>Home</Nav.Link>
             </Link>
-          </li>
-          {user?.isLoggedIn === false && (
-            <li>
-              <Link href="/login">
-                <a>Login</a>
+            <span>
+              <Link href="/profile-sg" passHref>
+                <Nav.Link>Profile (SG)</Nav.Link>
               </Link>
-            </li>
-          )}
-          {user?.isLoggedIn === true && (
-            <>
-              <li>
-                <Link href="/profile-sg">
-                  <a>
-                    <span
-                      style={{
-                        marginRight: ".3em",
-                        verticalAlign: "middle",
-                        borderRadius: "100%",
-                        overflow: "hidden",
-                      }}
-                    >
-                      <Image
-                        src={user.avatarUrl}
-                        width={32}
-                        height={32}
-                        alt=""
-                      />
-                    </span>
-                    Profile (Static Generation, recommended)
-                  </a>
+            </span>
+            <span>
+              <Link href="/profile-ssr" passHref>
+                <Nav.Link>Profile (SSR)</Nav.Link>
+              </Link>
+            </span>
+          </Nav>
+
+          <Nav className={clsx(styles.user, isLoading && styles.loading)}>
+            {isLoggedIn ? (
+              <>
+                <span className={clsx(styles["align-center"], styles.info)}>
+                  <Image
+                    src={user.avatarUrl}
+                    width="30"
+                    height="30"
+                    alt="GitHub"
+                  />
+                  {user.login}
+                </span>
+
+                <Link href="/logout" passHref>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={handleLogout}
+                    className={styles.btn}
+                  >
+                    Logout
+                  </Button>
                 </Link>
-              </li>
-              <li>
-                <Link href="/profile-ssr">
-                  <a>Profile (Server-side Rendering)</a>
-                </Link>
-              </li>
-              <li>
-                {/* In this case, we're fine with linking with a regular a in case of no JavaScript */}
-                {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-                <a
-                  href="/api/logout"
-                  onClick={async (e) => {
-                    e.preventDefault();
-                    await logout();
-                    router.push("/login");
-                  }}
-                >
-                  Logout
-                </a>
-              </li>
-            </>
-          )}
-          <li>
-            <a href="https://github.com/vvo/iron-session">
-              <Image
-                src="/GitHub-Mark-Light-32px.png"
-                width="32"
-                height="32"
-                alt=""
-              />
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <style jsx>{`
-        ul {
-          display: flex;
-          list-style: none;
-          margin-left: 0;
-          padding-left: 0;
-        }
-
-        li {
-          margin-right: 1rem;
-          display: flex;
-        }
-
-        li:first-child {
-          margin-left: auto;
-        }
-
-        a {
-          color: #fff;
-          text-decoration: none;
-          display: flex;
-          align-items: center;
-        }
-
-        a img {
-          margin-right: 1em;
-        }
-
-        header {
-          padding: 0.2rem;
-          color: #fff;
-          background-color: #333;
-        }
-      `}</style>
-    </header>
+              </>
+            ) : (
+              <Link href="/login" passHref>
+                <Button variant="primary" size="sm" className={styles.btn}>
+                  Login
+                </Button>
+              </Link>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }

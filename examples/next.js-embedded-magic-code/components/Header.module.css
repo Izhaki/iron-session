@@ -1,0 +1,32 @@
+.navbar > .container {
+  margin: 0 auto;
+  color: white;
+}
+
+.align-center {
+  display: flex;
+  align-items: center;
+}
+
+.github {
+  width: 24px;
+  height: 24px;
+  margin-right: 0.5em;
+}
+
+.user {
+  opacity: 1;
+  transition: opacity 0.2s ease-in;
+}
+
+.user .info {
+  margin-right: 0.5em;
+}
+
+.user.loading {
+  opacity: 0;
+}
+
+.user .btn {
+  min-width: 5em;
+}
