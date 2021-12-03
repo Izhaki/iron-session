@@ -1,8 +1,9 @@
-import type { Session } from "lib/Session";
-
+import type { Session, User } from "lib/Session";
+import { Octokit } from "octokit";
 import { NextApiRequest, NextApiResponse } from "next";
-
 import { withSessionRoute } from "lib/withSession";
+
+const octokit = new Octokit();
 
 interface ErrorResponse {
   message: Error["message"];
@@ -12,12 +13,14 @@ async function loginRoute(
   req: NextApiRequest,
   res: NextApiResponse<Session | ErrorResponse>,
 ) {
+  const { username } = await req.body;
+
   try {
-    const user = {
-      isLoggedIn: true,
-      login: "Izhaki",
-      avatarUrl: "https://avatars.githubusercontent.com/u/880132?v=4",
-    };
+    const {
+      data: { login, avatar_url },
+    } = await octokit.rest.users.getByUsername({ username });
+
+    const user = { isLoggedIn: true, login, avatarUrl: avatar_url } as User;
 
     const session = { user };
 
