@@ -1,6 +1,7 @@
 import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "lib/session";
 import { NextApiRequest, NextApiResponse } from "next";
+import refreshCSRFToken from "lib/refreshCSRFToken";
 
 export type User = {
   isLoggedIn: boolean;
@@ -11,6 +12,10 @@ export type User = {
 export default withIronSessionApiRoute(userRoute, sessionOptions);
 
 async function userRoute(req: NextApiRequest, res: NextApiResponse<User>) {
+  if (!req.session.id) {
+    await refreshCSRFToken(req, res);
+  }
+
   if (req.session.user) {
     // in a real world application you might read the user id from the session and then do a database request
     // to get more information on the user if needed

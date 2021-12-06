@@ -1,8 +1,24 @@
+import { getCookieValue } from "lib/cookies";
+import { defaultCSRFKeys } from "lib/csrf";
+
 export default async function fetchJson<JSON = unknown>(
   input: RequestInfo,
-  init?: RequestInit,
+  init: RequestInit = {},
 ): Promise<JSON> {
-  const response = await fetch(input, init);
+  const headers = new Headers(init.headers);
+
+  // GET requests (the default) can leak the CSRF token.
+  // (see https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#synchronizer-token-pattern)
+  if (init.method && init.method.toLowerCase() !== "get") {
+    const csrfToken = getCookieValue("csrf");
+
+    headers.append(defaultCSRFKeys.header, csrfToken);
+  }
+
+  const response = await fetch(input, {
+    ...init,
+    headers,
+  });
 
   // if the server replies, there's always some data in json
   // if there's a network error, it will throw at the previous line

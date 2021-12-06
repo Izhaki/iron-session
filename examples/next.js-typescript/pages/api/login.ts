@@ -4,6 +4,8 @@ import { Octokit } from "octokit";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "lib/session";
 import { NextApiRequest, NextApiResponse } from "next";
+import refreshCSRFToken from "lib/refreshCSRFToken";
+
 const octokit = new Octokit();
 
 export default withIronSessionApiRoute(loginRoute, sessionOptions);
@@ -19,6 +21,9 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
     const user = { isLoggedIn: true, login, avatarUrl: avatar_url } as User;
     req.session.user = user;
     await req.session.save();
+
+    await refreshCSRFToken(req, res);
+
     res.json(user);
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
